@@ -382,6 +382,7 @@ public class WorkflowService {
     public void retryCwltool(QueuedWorkflow queuedWorkflow) {
         queuedWorkflow.setMessage(null);
         queuedWorkflow.setCwltoolStatus(CWLToolStatus.RUNNING);
+        queuedWorkflow.setCwltoolVersion(queuedWorkflow.getTempRepresentation().getCwltoolVersion());
         queuedWorkflowRepository.save(queuedWorkflow);
         try {
             cwlToolRunner.createWorkflowFromQueued(queuedWorkflow);
