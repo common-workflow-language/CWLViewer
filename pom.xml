@@ -23,10 +23,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<jena.version>3.16.0</jena.version>
+		<jena.version>3.15.0</jena.version>
 		<!-- BEGIN should correspond to https://repo1.maven.org/maven2/org/apache/jena/jena/3.9.0/jena-3.9.0.pom -->
-		<ver.jsonldjava>0.13.2</ver.jsonldjava>
-		<ver.jackson>2.11.3</ver.jackson>
+		<ver.jsonldjava>0.13.0</ver.jsonldjava>
+		<ver.jackson>2.11.1</ver.jackson>
 		<!-- END -->
 	</properties>
 
@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
-			<version>1.27</version>
+			<version>1.26</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.jabbalaci</groupId>
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-			<version>5.9.0.202009080501-r</version>
+			<version>5.8.0.202006091008-r</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -132,10 +132,10 @@
 
 	<profiles>
 		<profile>
-			<id>travis</id>
+			<id>github</id>
 			<activation>
 				<property>
-					<name>env.TRAVIS</name>
+					<name>env.CI</name>
 					<value>true</value>
 				</property>
 			</activation>

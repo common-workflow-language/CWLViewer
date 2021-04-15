@@ -2,7 +2,7 @@
 
 This is a [Spring Boot](http://projects.spring.io/spring-boot/) MVC application which fetches [Common Workflow Language](http://www.commonwl.org/) files from a Github repository and creates a page for it detailing the main workflow and its inputs, outputs and steps.
 
-[![Build Status](https://travis-ci.org/common-workflow-language/cwlviewer.svg?branch=master)](https://travis-ci.org/common-workflow-language/cwlviewer) [![Coverage Status](https://coveralls.io/repos/github/common-workflow-language/cwlviewer/badge.svg)](https://coveralls.io/github/common-workflow-language/cwlviewer) [![Gitter](https://img.shields.io/gitter/room/gitterHQ/gitter.svg)](https://gitter.im/common-workflow-language/cwlviewer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://images.microbadger.com/badges/image/commonworkflowlanguage/cwlviewer.svg)](https://microbadger.com/images/commonworkflowlanguage/cwlviewer "MicroBadger commonworkflowlanguage/cwlviewer") [![Docker image commonworkflowlanguage/cwlviewer](https://images.microbadger.com/badges/version/commonworkflowlanguage/cwlviewer.svg)](https://hub.docker.com/r/commonworkflowlanguage/cwlviewer/ "Docker Hub commonworkflowlanguage/cwlviewer")
+[![Build Status](https://github.com/common-workflow-language/cwlviewer/workflows/CWL%20Viewer%20Build/badge.svg?branch=main)](https://github.com/common-workflow-language/cwlviewer/actions?query=workflow%3A%22CWL%20Viewer%20Build%22) [![Coverage Status](https://coveralls.io/repos/github/common-workflow-language/cwlviewer/badge.svg)](https://coveralls.io/github/common-workflow-language/cwlviewer) [![Gitter](https://img.shields.io/gitter/room/gitterHQ/gitter.svg)](https://gitter.im/common-workflow-language/cwlviewer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://images.microbadger.com/badges/image/commonworkflowlanguage/cwlviewer.svg)](https://microbadger.com/images/commonworkflowlanguage/cwlviewer "MicroBadger commonworkflowlanguage/cwlviewer") [![Docker image commonworkflowlanguage/cwlviewer](https://images.microbadger.com/badges/version/commonworkflowlanguage/cwlviewer.svg)](https://hub.docker.com/r/commonworkflowlanguage/cwlviewer/ "Docker Hub commonworkflowlanguage/cwlviewer")
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.823534.svg)](https://doi.org/10.5281/zenodo.823534)
 
 
@@ -166,9 +166,11 @@ look like a commit ID. Note that this might break previous permalinks.
 
 # Documentation
 
-2017 Poster https://f1000research.com/posters/6-1075
+2017 Poster https://doi.org/10.7490/f1000research.1114375.1
 
 2017 Video overview https://youtu.be/_yjhVTmvxLU
+
+2017 Technical Report https://doi.org/10.5281/zenodo.823295
 
 # Thanks
 
