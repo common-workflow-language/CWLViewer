@@ -52,6 +52,7 @@ public class Workflow {
     @Indexed(unique = true)
     private GitDetails retrievedFrom;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss z")
+    @Indexed
     private Date retrievedOn;
 
     // The last commit from the branch at the time of fetching

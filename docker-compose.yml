@@ -7,9 +7,10 @@ volumes:
   sparql:
 services:
   spring:
+    restart: always
     # To run from this source code instead of Docker hub,
     # disable "image:"" and enable "build:" below
-    image: commonworkflowlanguage/cwlviewer:v1.2.1
+    image: commonworkflowlanguage/cwlviewer:v1.3.0
     #build: .
     ports:
      - "8080:8080"
@@ -34,12 +35,15 @@ services:
      - GITSTORAGE=/data/git
      - GRAPHVIZSTORAGE=/data/graphviz
   mongo:
+    restart: always
     image: mongo:3.4
+    command: mongod --setParameter="internalQueryExecMaxBlockingSortBytes=335544320"
     volumes:
       - type: volume
         source: mongo
         target: /data/db
   sparql:
+    restart: always
 ## For debugging, expose the Fuseki port by enabling:
 #    ports:
 #     - "3030:3030"

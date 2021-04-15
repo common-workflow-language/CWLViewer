@@ -101,7 +101,7 @@ public class CWLTool {
     private String runCwltoolOnWorkflow(String argument, String workflowUrl) throws CWLValidationException {
         try {
             // Run command
-            String[] command = {"cwltool", "--non-strict", "--quiet", argument, workflowUrl};
+            String[] command = {"cwltool", "--non-strict", "--quiet", "--skip-schemas", argument, workflowUrl};
             ProcessBuilder cwlToolProcess = new ProcessBuilder(command);
             Process process = cwlToolProcess.start();
 
