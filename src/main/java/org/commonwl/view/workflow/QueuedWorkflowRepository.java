@@ -21,7 +21,6 @@ public interface QueuedWorkflowRepository extends PagingAndSortingRepository<Que
      * Deletes a queued workflow based on where it was retrieved from
      * @param retrievedFrom Details of where the queued workflow is from
      */
-    @Query("{tempRepresentation.retrievedFrom: ?0}")
-    void deleteByRetrievedFrom(GitDetails retrievedFrom);
+    void deleteByTempRepresentation_RetrievedFrom(GitDetails retrievedFrom);
 
 }
