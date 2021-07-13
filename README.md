@@ -7,19 +7,6 @@ This is a [Spring Boot](http://projects.spring.io/spring-boot/) MVC application 
 
 
 
-## License
-
-Distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-See the file [LICENSE.md](LICENSE.md) for details, and
-[NOTICE.md](NOTICE.md) for required attribution notices.
-
-## Contribute
-
-Feel free to contribute! You may [raise an issue](https://github.com/common-workflow-language/cwlviewer/issues),
-provide a [pull request](https://github.com/common-workflow-language/cwlviewer/pulls)
-or join the [gitter chat for cwlviewer](https://gitter.im/common-workflow-language/cwlviewer)!
-
-
 # Using CWL Viewer
 
 You are recommended to use the **production instance** of CWL Viewer at https://view.commonwl.org/ which runs the latest [release](https://github.com/common-workflow-language/cwlviewer/releases). Any downtime should be reported on the [gitter chat for cwlviewer](https://gitter.im/common-workflow-language/cwlviewer).
@@ -209,6 +196,22 @@ look like a commit ID. Note that this might break previous permalinks.
 2017 Video overview https://youtu.be/_yjhVTmvxLU
 
 2017 Technical Report https://doi.org/10.5281/zenodo.823295
+
+
+## License
+
+Distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+See the file [LICENSE.md](LICENSE.md) for details, and
+[NOTICE.md](NOTICE.md) for required attribution notices.
+
+## Contribute
+
+Feel free to contribute! You may [raise an issue](https://github.com/common-workflow-language/cwlviewer/issues),
+provide a [pull request](https://github.com/common-workflow-language/cwlviewer/pulls)
+or join the [gitter chat for cwlviewer](https://gitter.im/common-workflow-language/cwlviewer)!
+
+## Changelog
+See [CHANGELOG](https://github.com/common-workflow-language/cwlviewer/blob/main/CHANGELOG.md)
 
 # Thanks
 
