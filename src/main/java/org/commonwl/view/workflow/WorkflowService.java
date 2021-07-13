@@ -114,7 +114,7 @@ public class WorkflowService {
      * @return The model for the workflow
      */
     public Workflow getWorkflow(String id) {
-        return workflowRepository.findOne(id);
+        return workflowRepository.findById(id).orElse(null);
     }
 
     /**
@@ -123,7 +123,7 @@ public class WorkflowService {
      * @return The model for the queued workflow
      */
     public QueuedWorkflow getQueuedWorkflow(String id) {
-        return queuedWorkflowRepository.findOne(id);
+        return queuedWorkflowRepository.findById(id).orElse(null);
     }
 
     /**
