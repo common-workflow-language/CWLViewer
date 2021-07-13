@@ -202,6 +202,119 @@ The script `load.py` (requires Python 3) can be used to restore from such JSON d
 The optional parameter `--no-commits` can be added to skip those entries that
 look like a commit ID. Note that this might break previous permalinks.
 
+# CONNECTING JAVA DEBUGGER WITH DOCKER COMPOSE USING INTELLIJ IDE
+
+Connecting to a java debugger can be broken down into the following steps:
+### 1. Run the application using docker-compose
+Create a Dockerfile_debug at the root of the directory with the same content as the Dockerfile of the application
+
+Create a docker-compose-debug.yml file with the same content as the docker-compose.yml file at the root of the directory replacing this in the docker-compose-debug.yml
+```yaml
+    image: commonworkflowlanguage/cwlviewer:v1.3.0
+```
+
+with this:
+
+```yaml
+build:
+  context: .
+  dockerfile: Dockerfile_debug
+```
+This is because we want docker to build with our source code on our local instead of the image on docker hub.
+
+In the port section we want to specify a different port to listen to debug connections.
+
+Here, we are using address as 5005.
+
+In the command section as well, we configure JVM to allow debugging and We enable the agent Java Debug Wire Protocol (JDWP) inside the JVM.
+
+At the end you should have something looking like this
+
+```yaml
+build:
+ context: .
+ dockerfile: Dockerfile_debug
+ports:
+ - "8080:8080"
+ - "5005:5005"
+command: java -Djava.security.egd=file:/dev/./urandom -jar /usr/lib/cwlviewer.jar
+```
+If on intellij, open the docker-compose-debug.yml and click on the ![img_2.png](img_2.png)  in the gutter.
+
+You should see this message:
+
+    “Compose: docker-compose-debug.yml has been deployed successfully”
+
+you can access the application on localhost port 8080(which is the default port here) and the application should start up as expected.
+
+You can make HTTP requests on it and expect it to work
+
+### 2. Create a remote debug config
+In the docker-compose-debug.yml, click on the “insect looking image”, ![img_1.png](img_1.png)  on the side gutters
+
+Select the module in the Use module classpath list, in this case “cwlviewer”
+
+Double-click the Docker Compose run configuration in the Before launch list.
+
+If it is not in the list, click + and select Launch Docker before debug
+
+Make sure that the Docker Compose run configuration is selected with the app service. 
+
+Also check the Custom Command field: it should contain the -agentlib option and options from the command field in the docker-compose-debug.yml file:
+
+    java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 -Djava.security.egd=file:/dev/./urandom -jar /usr/lib/cwlviewer.jar
+
+
+#### NB
+If the default port is allocated to something else, change the container port for the Java debugger to connect to and make sure that the port in the remote debug configuration is the same.
+
+If the application is already running, do not run the debug configuration. Apply the settings and click Cancel.
+
+### 3. Launch the debug configuration﻿
+If the application is already running, stop it. 
+
+This can be done by selecting the Docker Compose node in the Services tool window below and click  ![img.png](img.png)in the toolbar.
+
+You can also right-click and delete the containers under the corresponding services.
+
+Open the docker-compose-debug.yml file.
+
+Click ![img_3.png](img_3.png) Debug with Remote in the gutter and start the debug configuration.
+
+Once the application starts and the debugger attaches to it, the Debug tool window will open.
+
+ ### 4. Setting breakpoints and Debugging the application
+
+Open the file to be debugged and set breakpoints at different points in the method
+
+Execute the http request
+
+The application will stop at the breakpoint and you can examine the current variable values and frames in the Debug tool window.
+
+Click ![img_4.png](img_4.png) until it executes the request and you get the returned values.
+
+You can also step into, step over or step out of methods depending on your preference.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Documentation
 
 2017 Poster https://doi.org/10.7490/f1000research.1114375.1
