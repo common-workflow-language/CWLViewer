@@ -20,7 +20,12 @@
 package org.commonwl.view.workflow;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -28,8 +33,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.commonwl.view.WebConfig;
+import org.commonwl.view.cwl.CWLService;
 import org.commonwl.view.cwl.CWLToolStatus;
 import org.commonwl.view.git.GitDetails;
 import org.commonwl.view.graphviz.GraphVizService;
@@ -40,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
@@ -48,11 +57,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,6 +69,7 @@ public class WorkflowController {
 
     private final WorkflowFormValidator workflowFormValidator;
     private final WorkflowService workflowService;
+    private final CWLService cwlService;
     private final GraphVizService graphVizService;
 
     /**
@@ -79,10 +85,11 @@ public class WorkflowController {
     @Autowired
     public WorkflowController(WorkflowFormValidator workflowFormValidator,
                               WorkflowService workflowService,
-            GraphVizService graphVizService) {
+            GraphVizService graphVizService, CWLService cwlService) {
         this.workflowFormValidator = workflowFormValidator;
         this.workflowService = workflowService;
         this.graphVizService = graphVizService;
+        this.cwlService = cwlService;
     }
 
     /**
@@ -396,6 +403,32 @@ public class WorkflowController {
         return new PathResource(out);
     }
 
+    /**
+     * Take a CWL workflow from the POST body and generate a PNG graph for it.
+     * @param in The workflow CWL
+     */
+    @PostMapping(value="/graph/png", produces="image/png", 
+    		consumes={"text/yaml", "text/x-yaml", "text/plain", "application/octet-stream"})
+    @ResponseBody
+    public Resource downloadGraphPngFromFile(InputStream in, HttpServletResponse response)
+            throws IOException, NoSuchAlgorithmException {
+        response.setHeader("Content-Disposition", "inline; filename=\"graph.png\"");
+        return getGraphFromInputStream(in, "png");
+    }
+
+    /**
+     * Take a CWL workflow from the POST body and generate a SVG graph for it.
+     * @param in The workflow CWL as YAML text
+     */
+    @PostMapping(value="/graph/svg", produces="image/svg+xml", 
+    		consumes={"text/yaml", "text/x-yaml", "text/plain", "application/octet-stream"})
+    @ResponseBody
+    public Resource downloadGraphSvgFromFile(InputStream in, HttpServletResponse response)
+            throws IOException, NoSuchAlgorithmException {
+        response.setHeader("Content-Disposition", "inline; filename=\"graph.svg\"");
+        return getGraphFromInputStream(in, "svg");
+    }
+
 
     /**
      * Extract the path from the end of a full request string
@@ -548,5 +581,12 @@ public class WorkflowController {
             return new ModelAndView("workflow", "workflow", workflowModel).addObject("formats",
                     WebConfig.Format.values());
         }
+    }
+
+    private Resource getGraphFromInputStream(InputStream in, String format)
+            throws IOException, NoSuchAlgorithmException {
+        Workflow workflow = cwlService.parseWorkflowNative(in, "", "workflow"); // first workflow will do
+        InputStream out = graphVizService.getGraphStream(workflow.getVisualisationDot(), format);
+        return new InputStreamResource(out);
     }
 }

@@ -1,4 +1,4 @@
-FROM maven:3.5-jdk-8-alpine
+FROM maven:3.6-jdk-8-alpine
 MAINTAINER Stian Soiland-Reyes <stain@apache.org>
 
 # Build-time metadata as defined at http://label-schema.org

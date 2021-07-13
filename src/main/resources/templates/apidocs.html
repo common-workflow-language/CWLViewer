@@ -39,7 +39,7 @@
 
                     <p>If you make anything utilizing our API, please <a href="https://gitter.im/common-workflow-language/cwlviewer" alt="Gitter Chatroom" target="_blank" rel="noopener">let us know about it</a> - we would love to see!</p>
 
-                    <p>All queries require the following header to receive a JSON response:
+                    <p>Except where noted otherwise, all queries require the following header to receive a JSON response:
                         <pre class="highlight http">accept: application/json</pre>
                     </p>
 
@@ -652,6 +652,130 @@ if addResponse.status_code == requests.codes.accepted:
 else:
     print('Error adding workflow')
 </pre>
+
+
+                    <h3 id="graphSvg">SVG sketch of CWL workflow</h3>
+                    <div class="alert alert-info"><strong>Note:</strong> This method use a brief YAML 
+                    parsing of the standalone CWL file that do not support annotations 
+                    like <kbd>label</kbd> or <kbd>doc</kbd>, and that does not check 
+                    for validity or completeness.
+                    </div>
+                    <span class="method post">POST</span>
+                    <pre>/graph/svg</pre>                    
+                    <h4>Input</h4>
+<pre class="highlight http">
+Content-Type: text/yaml
+</pre>
+<pre class="highlight yaml">
+#!/usr/bin/env cwl-runner
+  
+cwlVersion: v1.0
+class: Workflow
+
+inputs:
+  usermessage: string
+
+outputs:
+  response:
+    outputSource: step0/response
+    type: File
+
+steps:
+  step0:
+    run:
+      class: CommandLineTool
+      inputs:
+        message:
+          type: string
+          inputBinding:
+            position: 1
+      baseCommand: echo
+      outputs:
+        response:
+          type: stdout
+    in:
+      message: usermessage
+    out: [response]
+</pre>
+<h4>Output</h4>
+<p><samp>Content-Type: image/svg+xml</samp></p>
+<pre class="highlight xml">
+&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+&lt;svg width="450pt" height="270pt"
+     viewBox="0.00 0.00 463.00 278.00" xmlns="http://www.w3.org/2000/svg"&gt;
+	&lt;!-- ... --&gt;
+&lt;/svg&gt;
+</pre>
+                    <h4>Success</h4>
+<pre class="highlight http">
+HTTP/1.1 200 OK
+Content-Type: image/svg+xml
+</pre>
+                    <h4>Error</h4>
+                    <pre class="highlight http">HTTP/1.1 400 Bad Request</pre>
+
+
+                    <h3 id="graphPng">PNG sketch of CWL workflow</h3>
+                    <div class="alert alert-info"><strong>Note:</strong> This method use a brief YAML 
+                    parsing of the standalone CWL file that do not support annotations 
+                    like <kbd>label</kbd> or <kbd>doc</kbd>, and that does not check 
+                    for validity or completeness.
+                    </div>
+                    <span class="method post">POST</span>
+                    <pre>/graph/png</pre>                    
+                    <h4>Input</h4>
+
+<pre class="highlight http">
+Content-Type: text/yaml
+</pre>
+<pre class="highlight yaml">
+#!/usr/bin/env cwl-runner
+  
+cwlVersion: v1.0
+class: Workflow
+
+inputs:
+  usermessage: string
+
+outputs:
+  response:
+    outputSource: step0/response
+    type: File
+
+steps:
+  step0:
+    run:
+      class: CommandLineTool
+      inputs:
+        message:
+          type: string
+          inputBinding:
+            position: 1
+      baseCommand: echo
+      outputs:
+        response:
+          type: stdout
+    in:
+      message: usermessage
+    out: [response]
+</pre>
+
+<h4>Output</h4>
+
+<pre class="highlight">
+\x89PNG\n\x1a\n\x00\x00 (binary)
+</pre>
+                    <h4>Success</h4>
+<pre class="highlight http">
+HTTP/1.1 200 OK
+Content-Type: image/png
+</pre>
+                    <h4>Error</h4>
+                    <pre class="highlight http">HTTP/1.1 400 Bad Request</pre>
+
+
+
                 </div>
             </div>
         </div>
